@@ -4,9 +4,7 @@ import { User } from '../models/user.model.js'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
 import { apiResponse } from '../utils/apiResponse.js'
 import jwt from 'jsonwebtoken'
-import { validate } from "uuid";
 import mongoose from "mongoose";
-import { response } from "express";
 
 const genertaeAccesssAndRefreshToken = async (userid) => {
     try {
@@ -339,7 +337,7 @@ const getUserChannelProfile = asyncHandler(async (req,res)=>{
     const channel = await User.aggregate([
         {
             $match:{
-                userName:username?.toLowerCase
+                userName:username?.toLowerCase()
             }
         },
         {
@@ -380,7 +378,7 @@ const getUserChannelProfile = asyncHandler(async (req,res)=>{
         {
             $project:{
                 fullName:1,
-                username:1,
+                userName:1,
                 subscribersCount:1,
                 channelSubscribedToCount:1,
                 isSubscribedTo:1,
@@ -398,7 +396,7 @@ const getUserChannelProfile = asyncHandler(async (req,res)=>{
     return res
     .status(200)
     .json(
-        new apiResponse(200,channel[0],"User Channel fatched Successfuly")
+        new apiResponse(200,channel,"User Channel fatched Successfuly")
     )
 })
 
@@ -408,6 +406,7 @@ const getWatchHistory = asyncHandler(async (req,res)=>{
         {
             $match :{
                 _id : new mongoose.Types.ObjectId(req.user._id)
+
             }
         },
         {
@@ -444,7 +443,6 @@ const getWatchHistory = asyncHandler(async (req,res)=>{
                     }
                 ]
             }
-
         }
     ])
 

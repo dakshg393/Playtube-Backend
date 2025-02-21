@@ -13,7 +13,7 @@ const videoSchema = new Schema({
         type:String,
         required:true
     },
-    discription:{
+    description:{
         type:String,
         required:true
     },
@@ -21,6 +21,11 @@ const videoSchema = new Schema({
         type:Number,
         required:true,
 
+    },
+    category: {                  
+        type: String,
+        enum: ["news", "sports", "gaming", "education","music","technology"],
+        required: true
     },
     views:{
         type:Number,

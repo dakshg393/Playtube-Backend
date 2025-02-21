@@ -10,5 +10,6 @@ const storage = multer.diskStorage({
       cb(null, `${uuidv4()}_${file.originalname}`)
     }
   })
+   
   
 export const upload = multer({storage})
