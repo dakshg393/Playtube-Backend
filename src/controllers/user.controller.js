@@ -6,6 +6,8 @@ import { apiResponse } from '../utils/apiResponse.js'
 import jwt from 'jsonwebtoken'
 import mongoose from "mongoose";
 
+import requestIp from 'request-ip';
+
 const genertaeAccesssAndRefreshToken = async (userid) => {
     try {
         const user = await User.findById(userid)
@@ -61,9 +63,9 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    const avatar = await uploadOnCloudinary(avatarLocalPath,"playtube/avatar")
 
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath,"playtube/coverImage")
 
     if (!avatar) {
         throw new apiError(400, "avatar file is required")
@@ -96,15 +98,14 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
 
-    //  req body ->
-    // username or email
-    //user 
-    //password check 
-    //if password check then 
-    //access token and refresh token 
-    //send token in cokkie 
+    const clientIp = requestIp.getClientIp(req);
+
+    console.log("Client IP:", clientIp);
+   
 
     const { email, userName, password } = req.body
+    
+
     console.log(email)
     if (!(userName || email)) {
         throw new apiError(200, "Username or email is required")
@@ -278,7 +279,7 @@ const updateUserAvatar = asyncHandler(async (req,res)=>{
         throw new apiError(400,"Avatar file is missing ")
     }
 
-    const avatar =await uploadOnCloudinary(avatarLocalPath)
+    const avatar =await uploadOnCloudinary(avatarLocalPath,"playtube/avatar")
     if(!avatar.url){
         throw new apiError(400,"Error While Uploding avatar")
     }
@@ -308,7 +309,7 @@ const updateUserCoverImage = asyncHandler(async (req,res)=>{
         throw new apiError(400,"Cover Image file is missing ")
     }
 
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath,"playtube/coverImage")
     if(!coverImage.url){
         throw new apiError(400,"Error While Uploding Cover Image")
     }
