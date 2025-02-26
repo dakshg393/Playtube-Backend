@@ -16,7 +16,7 @@ const uploadOnCloudinary = async (localFilePath,folderName="Playtube") => {
         if(!localFilePath) return null
         // upload on cloudinery
 
-        const response = await cloudinary.uploader.upload(localFilePath,{resource_type:'auto'})
+        const response = await cloudinary.uploader.upload(localFilePath,{resource_type:'auto',folder:folderName})
 
         fs.unlinkSync(localFilePath)
 

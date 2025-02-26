@@ -24,7 +24,7 @@ const videoSchema = new Schema({
     },
     category: {                  
         type: String,
-        enum: ["news", "sports", "gaming", "education","music","technology"],
+        enum: ["Technology","Gaming","Travel","Music","Education","Sports"],
         required: true
     },
     views:{
